@@ -52,6 +52,12 @@ public class NewCarpetas implements Serializable{
     public void setLista2(ArrayList<Archivos> lista2) {
         this.lista2 = lista2;
     }
+
+    @Override
+    public String toString() {
+        return "Carpeta:" + nombre + ", Carpetas:" + lista + ", Archivos:" + lista2 + '}';
+    }
+    
     
     
 }

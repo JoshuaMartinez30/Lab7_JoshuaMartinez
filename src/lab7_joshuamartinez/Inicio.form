@@ -38,6 +38,9 @@
                   <StringArray count="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jl_MiUnidadMouseClicked"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -230,6 +233,66 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarMouseClicked"/>
           </Events>
         </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPopupMenu" name="popup_MiUnidad">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_Destacado">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jMenuItem1"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_DestacadoActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_Eliminar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jMenuItem2"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_EliminarActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPopupMenu" name="popup_Destacado">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_Pasar_MiUnidad">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jMenuItem1"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_Pasar_Papelera">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jMenuItem2"/>
+          </Properties>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPopupMenu" name="popup_Papelera">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_Restaurar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jMenuItem1"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_Eliminar_Permanente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jMenuItem1"/>
+          </Properties>
+        </MenuItem>
       </SubComponents>
     </Container>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">

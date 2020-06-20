@@ -55,11 +55,11 @@ public class AdminArchivo {
                         listaA.add(temp);
                     }
                 } catch (EOFException e) {
-                    //encontro el final del archivo
+                    
                 }
                 objeto.close();
                 entrada.close();
-            } //fin if           
+            }            
         } catch (Exception ex) {
             ex.printStackTrace();
         }

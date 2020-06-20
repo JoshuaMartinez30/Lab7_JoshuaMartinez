@@ -47,6 +47,12 @@ public class Archivos implements Serializable{
     public void setTamaño(Double Tamaño) {
         this.Tamaño = Tamaño;
     }
+
+    @Override
+    public String toString() {
+        return "Archivo:" + nombre + extension + "," + Tamaño;
+    }
+    
     
     
 }

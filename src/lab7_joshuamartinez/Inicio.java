@@ -3,20 +3,28 @@ package lab7_joshuamartinez;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import sun.applet.Main;
 
 public class Inicio extends javax.swing.JFrame {
 
+    int posicion = 0;
     ArrayList<Archivos> lista = new ArrayList();
     ArrayList<NewCarpetas> lista2 = new ArrayList();
+
     public Inicio() {
         initComponents();
+        this.setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**
@@ -45,6 +53,15 @@ public class Inicio extends javax.swing.JFrame {
         tf_Tamaño = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
+        popup_MiUnidad = new javax.swing.JPopupMenu();
+        jmi_Destacado = new javax.swing.JMenuItem();
+        jmi_Eliminar = new javax.swing.JMenuItem();
+        popup_Destacado = new javax.swing.JPopupMenu();
+        jmi_Pasar_MiUnidad = new javax.swing.JMenuItem();
+        jmi_Pasar_Papelera = new javax.swing.JMenuItem();
+        popup_Papelera = new javax.swing.JPopupMenu();
+        jmi_Restaurar = new javax.swing.JMenuItem();
+        jmi_Eliminar_Permanente = new javax.swing.JMenuItem();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmi_MiUnidad = new javax.swing.JMenuItem();
@@ -54,6 +71,11 @@ public class Inicio extends javax.swing.JFrame {
         jmi_CrearArchivo = new javax.swing.JMenuItem();
         jmi_CrearCarpeta = new javax.swing.JMenuItem();
 
+        jl_MiUnidad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jl_MiUnidadMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jl_MiUnidad);
 
         javax.swing.GroupLayout JD_MiUnidadLayout = new javax.swing.GroupLayout(JD_MiUnidad.getContentPane());
@@ -167,6 +189,34 @@ public class Inicio extends javax.swing.JFrame {
                 .addGap(35, 35, 35))
         );
 
+        jmi_Destacado.setText("jMenuItem1");
+        jmi_Destacado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_DestacadoActionPerformed(evt);
+            }
+        });
+        popup_MiUnidad.add(jmi_Destacado);
+
+        jmi_Eliminar.setText("jMenuItem2");
+        jmi_Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_EliminarActionPerformed(evt);
+            }
+        });
+        popup_MiUnidad.add(jmi_Eliminar);
+
+        jmi_Pasar_MiUnidad.setText("jMenuItem1");
+        popup_Destacado.add(jmi_Pasar_MiUnidad);
+
+        jmi_Pasar_Papelera.setText("jMenuItem2");
+        popup_Destacado.add(jmi_Pasar_Papelera);
+
+        jmi_Restaurar.setText("jMenuItem1");
+        popup_Papelera.add(jmi_Restaurar);
+
+        jmi_Eliminar_Permanente.setText("jMenuItem1");
+        popup_Papelera.add(jmi_Eliminar_Permanente);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jMenu1.setText("Menu");
@@ -234,15 +284,44 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmi_MiUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_MiUnidadActionPerformed
+        posicion = 1;
+        jl_MiUnidad.setModel(new DefaultListModel<>());
+        AdminMiUnidad am = new AdminMiUnidad("./Mi Unidad.cbm");
+        am.cargarArchivo();
+        DefaultListModel l = (DefaultListModel) jl_MiUnidad.getModel();
+        for (NewCarpetas c : am.getListaC()) {
+            l.addElement(c);
+        }
+        for (Archivos a : am.getListaA()) {
+            l.addElement(a);
+        }
+        jl_MiUnidad.setModel(l);
         JD_MiUnidad.setModal(true);
         JD_MiUnidad.pack();
         JD_MiUnidad.setLocationRelativeTo(null);
         JD_MiUnidad.setVisible(true);
         JD_MiUnidad.setVisible(false);
+
     }//GEN-LAST:event_jmi_MiUnidadActionPerformed
 
     private void jmi_DestacadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_DestacadosActionPerformed
-
+        posicion = 2;
+        jl_Destacado.setModel(new DefaultListModel<>());
+        AdminDestacado am = new AdminDestacado("./Destacados.cbm");
+        am.cargarArchivo();
+        DefaultListModel l = (DefaultListModel) jl_Destacado.getModel();
+        for (NewCarpetas c : am.getListaC()) {
+            l.addElement(c);
+        }
+        for (Archivos a : am.getListaA()) {
+            l.addElement(a);
+        }
+        jl_Destacado.setModel(l);
+        JD_Destacado.setModal(true);
+        JD_Destacado.pack();
+        JD_Destacado.setLocationRelativeTo(null);
+        JD_Destacado.setVisible(true);
+        JD_Destacado.setVisible(false);
     }//GEN-LAST:event_jmi_DestacadosActionPerformed
 
     private void jmi_CrearArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_CrearArchivoActionPerformed
@@ -251,22 +330,41 @@ public class Inicio extends javax.swing.JFrame {
         JD_Archivo.setLocationRelativeTo(null);
         JD_Archivo.setVisible(true);
         JD_Archivo.setVisible(false);
+
     }//GEN-LAST:event_jmi_CrearArchivoActionPerformed
 
     private void jmi_CrearCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_CrearCarpetaActionPerformed
         String Nombre;
-        Nombre = JOptionPane.showInputDialog("Ingrese nombre de la carpeta");
-        String link=Link();
-        NewCarpetas c = new NewCarpetas(Nombre,link);
-        AdminCarpeta ap =new AdminCarpeta("./Mi Unidad.cbm");
-        ap.cargarArchivo();
-        ap.setlistaC(c);
-        lista2.add(c);
-        ap.escribirArchivo();   
-        JOptionPane.showMessageDialog(this, "Carpeta guardado exitosamente");
+        try {
+            Nombre = JOptionPane.showInputDialog("Ingrese nombre de la carpeta");
+            String link = Link();
+            NewCarpetas c = new NewCarpetas(Nombre, link);
+            AdminMiUnidad ap = new AdminMiUnidad("./Mi Unidad.cbm");
+            ap.cargarArchivo();
+            ap.getListaC().add(c);
+            lista2.add(c);
+            ap.escribirArchivo();
+            JOptionPane.showMessageDialog(this, "Carpeta guardado exitosamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "No se guardo exitosamente");
+        }
+
     }//GEN-LAST:event_jmi_CrearCarpetaActionPerformed
 
     private void jmi_PapeleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_PapeleraActionPerformed
+        posicion = 3;
+        jl_Papelera.setModel(new DefaultListModel<>());
+        AdminPapelera am = new AdminPapelera("./Papelera.cbm");
+        am.cargarArchivo();
+        DefaultListModel l = (DefaultListModel) jl_Papelera.getModel();
+        for (NewCarpetas c : am.getListaC()) {
+            l.addElement(c);
+        }
+        for (Archivos a : am.getListaA()) {
+            l.addElement(a);
+        }
+        jl_Papelera.setModel(l);
         JD_Papelera.setModal(true);
         JD_Papelera.pack();
         JD_Papelera.setLocationRelativeTo(null);
@@ -276,21 +374,119 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         String nombre;
-        String link=Link();
-        nombre = tf_Nombre.getText();
-        Double tamaño;
-        tamaño = Double.parseDouble(tf_Tamaño.getText());
-        Archivos a = new Archivos(nombre,link,cboExtension.getSelectedItem().toString(),tamaño);
-        AdminArchivo ap=new AdminArchivo("./Mi Unidad.cbm");
-        ap.cargarArchivo();
-        ap.setlistaA(a);
-        lista.add(a);
-        ap.escribirArchivo();   
-        JOptionPane.showMessageDialog(JD_Archivo, "Archivo guardado exitosamente");
-        tf_Nombre.setText("");
-        tf_Tamaño.setText("");
-        cboExtension.setSelectedIndex(0);  
+        String link = Link();
+        try {
+            nombre = tf_Nombre.getText();
+            Double tamaño;
+            tamaño = Double.parseDouble(tf_Tamaño.getText());
+            Archivos a = new Archivos(nombre, link, cboExtension.getSelectedItem().toString(), tamaño);
+            AdminMiUnidad ap = new AdminMiUnidad("./Mi Unidad.cbm");
+            ap.cargarArchivo();
+            ap.getListaA().add(a);
+            lista.add(a);
+            ap.escribirArchivo();
+            JOptionPane.showMessageDialog(JD_Archivo, "Archivo guardado exitosamente");
+            tf_Nombre.setText("");
+            tf_Tamaño.setText("");
+            cboExtension.setSelectedIndex(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(JD_Archivo, "Archivo No se guardo exitosamente");
+
+        }
+
     }//GEN-LAST:event_btnGuardarMouseClicked
+
+    private void jl_MiUnidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_MiUnidadMouseClicked
+        if (evt.isMetaDown()) {
+            if (posicion == 1) {
+                popup_MiUnidad.show(evt.getComponent(), evt.getX(), evt.getY());
+            } else if (posicion == 2) {
+                popup_Papelera.show(evt.getComponent(), evt.getX(), evt.getY());
+            } else if (posicion == 3) {
+                popup_Destacado.show(evt.getComponent(), evt.getX(), evt.getY());
+
+            }
+        }
+    }//GEN-LAST:event_jl_MiUnidadMouseClicked
+
+    private void jmi_DestacadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_DestacadoActionPerformed
+        try {
+            jl_Destacado.setModel(new DefaultListModel<>());
+            int posicion1 = jl_MiUnidad.getSelectedIndex();
+            DefaultListModel l = (DefaultListModel) jl_MiUnidad.getModel();
+            DefaultListModel l2 = (DefaultListModel) jl_Destacado.getModel();
+            Object temp = l.get(posicion1);
+            AdminDestacado ad = new AdminDestacado("./Destacados.cbm");
+            ad.cargarArchivo();
+            AdminMiUnidad am = new AdminMiUnidad("./Mi Unidad.cbm");
+            am.cargarArchivo();
+            if (temp instanceof NewCarpetas) {
+                ad.getListaC().add((NewCarpetas) temp);
+                l2.addElement(temp);
+                for (int i = 0; i < am.getListaC().size(); i++) {
+                    if (((NewCarpetas) temp).getNombre().equals(am.getListaC().get(i).getNombre())) {
+                        am.getListaC().remove(i);
+                    }
+                }
+            } else if (temp instanceof Archivos) {
+                ad.getListaA().add((Archivos) temp);
+                l2.addElement(temp);
+                for (int i = 0; i < am.getListaA().size(); i++) {
+                    if (((Archivos) temp).getNombre().equals(am.getListaA().get(i).getNombre())) {
+                        am.getListaA().remove(i);
+                    }
+                }
+            }
+            am.escribirArchivo();
+            ad.escribirArchivo();
+            l.remove(posicion1);
+            jl_MiUnidad.setModel(l);
+            jl_Destacado.setModel(l2);
+
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jmi_DestacadoActionPerformed
+
+    private void jmi_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_EliminarActionPerformed
+        try {
+            jl_Papelera.setModel(new DefaultListModel<>());
+            int posicion1 = jl_MiUnidad.getSelectedIndex();
+            DefaultListModel l = (DefaultListModel) jl_MiUnidad.getModel();
+            DefaultListModel l2 = (DefaultListModel) jl_Papelera.getModel();
+            Object temp = l.get(posicion1);
+            AdminPapelera ad = new AdminPapelera("./Papelera.cbm");
+            ad.cargarArchivo();
+            AdminMiUnidad am = new AdminMiUnidad("./Mi Unidad.cbm");
+            am.cargarArchivo();
+            if (temp instanceof NewCarpetas) {
+                ad.getListaC().add((NewCarpetas) temp);
+                l2.addElement(temp);
+                for (int i = 0; i < am.getListaC().size(); i++) {
+                    if (((NewCarpetas) temp).getNombre().equals(am.getListaC().get(i).getNombre())) {
+                        am.getListaC().remove(i);
+                    }
+                }
+            } else if (temp instanceof Archivos) {
+                ad.getListaA().add((Archivos) temp);
+                l2.addElement(temp);
+                for (int i = 0; i < am.getListaA().size(); i++) {
+                    if (((Archivos) temp).getNombre().equals(am.getListaA().get(i).getNombre())) {
+                        am.getListaA().remove(i);
+                    }
+                }
+            }
+            am.escribirArchivo();
+            ad.escribirArchivo();
+            l.remove(posicion1);
+            jl_MiUnidad.setModel(l);
+            jl_Papelera.setModel(l2);
+
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jmi_EliminarActionPerformed
 
     public String Link() {
         Random r = new Random();
@@ -392,9 +588,18 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JList<String> jl_Papelera;
     private javax.swing.JMenuItem jmi_CrearArchivo;
     private javax.swing.JMenuItem jmi_CrearCarpeta;
+    private javax.swing.JMenuItem jmi_Destacado;
     private javax.swing.JMenuItem jmi_Destacados;
+    private javax.swing.JMenuItem jmi_Eliminar;
+    private javax.swing.JMenuItem jmi_Eliminar_Permanente;
     private javax.swing.JMenuItem jmi_MiUnidad;
     private javax.swing.JMenuItem jmi_Papelera;
+    private javax.swing.JMenuItem jmi_Pasar_MiUnidad;
+    private javax.swing.JMenuItem jmi_Pasar_Papelera;
+    private javax.swing.JMenuItem jmi_Restaurar;
+    private javax.swing.JPopupMenu popup_Destacado;
+    private javax.swing.JPopupMenu popup_MiUnidad;
+    private javax.swing.JPopupMenu popup_Papelera;
     private javax.swing.JTextField tf_Nombre;
     private javax.swing.JTextField tf_Tamaño;
     // End of variables declaration//GEN-END:variables
