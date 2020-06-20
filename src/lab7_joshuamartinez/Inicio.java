@@ -18,8 +18,7 @@ import sun.applet.Main;
 
 public class Inicio extends javax.swing.JFrame {
 
-    ArrayList<Archivos> lista = new ArrayList();
-    ArrayList<NewCarpetas> lista2 = new ArrayList();
+    
 
     public Inicio() {
         initComponents();
@@ -354,14 +353,14 @@ public class Inicio extends javax.swing.JFrame {
         jl_MiUnidad.setModel(new DefaultListModel<>());
         AdminMiUnidad am = new AdminMiUnidad("./Mi Unidad.cbm");
         am.cargarArchivo();
-        DefaultListModel l = (DefaultListModel) jl_MiUnidad.getModel();
+        DefaultListModel lista = (DefaultListModel) jl_MiUnidad.getModel();
         for (NewCarpetas c : am.getListaC()) {
-            l.addElement(c);
+            lista.addElement(c);
         }
         for (Archivos a : am.getListaA()) {
-            l.addElement(a);
+            lista.addElement(a);
         }
-        jl_MiUnidad.setModel(l);
+        jl_MiUnidad.setModel(lista);
         JD_MiUnidad.setModal(true);
         JD_MiUnidad.pack();
         JD_MiUnidad.setLocationRelativeTo(null);
@@ -378,14 +377,14 @@ public class Inicio extends javax.swing.JFrame {
         jl_Destacado.setModel(new DefaultListModel<>());
         AdminDestacado am = new AdminDestacado("./Destacados.cbm");
         am.cargarArchivo();
-        DefaultListModel l = (DefaultListModel) jl_Destacado.getModel();
+        DefaultListModel lista = (DefaultListModel) jl_Destacado.getModel();
         for (NewCarpetas c : am.getListaC()) {
-            l.addElement(c);
+            lista.addElement(c);
         }
         for (Archivos a : am.getListaA()) {
-            l.addElement(a);
+            lista.addElement(a);
         }
-        jl_Destacado.setModel(l);
+        jl_Destacado.setModel(lista);
         JD_Destacado.setModal(true);
         JD_Destacado.pack();
         JD_Destacado.setLocationRelativeTo(null);
@@ -412,7 +411,6 @@ public class Inicio extends javax.swing.JFrame {
             AdminMiUnidad ap = new AdminMiUnidad("./Mi Unidad.cbm");
             ap.cargarArchivo();
             ap.getListaC().add(c);
-            lista2.add(c);
             ap.escribirArchivo();
             JOptionPane.showMessageDialog(this, "Carpeta guardado exitosamente");
         } catch (Exception e) {
@@ -430,14 +428,14 @@ public class Inicio extends javax.swing.JFrame {
         jl_Papelera.setModel(new DefaultListModel<>());
         AdminPapelera am = new AdminPapelera("./Papelera.cbm");
         am.cargarArchivo();
-        DefaultListModel l = (DefaultListModel) jl_Papelera.getModel();
+        DefaultListModel lista = (DefaultListModel) jl_Papelera.getModel();
         for (NewCarpetas c : am.getListaC()) {
-            l.addElement(c);
+            lista.addElement(c);
         }
         for (Archivos a : am.getListaA()) {
-            l.addElement(a);
+            lista.addElement(a);
         }
-        jl_Papelera.setModel(l);
+        jl_Papelera.setModel(lista);
         JD_Papelera.setModal(true);
         JD_Papelera.pack();
         JD_Papelera.setLocationRelativeTo(null);
@@ -457,7 +455,6 @@ public class Inicio extends javax.swing.JFrame {
             AdminMiUnidad ap = new AdminMiUnidad("./Mi Unidad.cbm");
             ap.cargarArchivo();
             ap.getListaA().add(a);
-            lista.add(a);
             ap.escribirArchivo();
             JOptionPane.showMessageDialog(JD_Archivo, "Archivo guardado exitosamente");
             tf_Nombre.setText("");
@@ -481,35 +478,35 @@ public class Inicio extends javax.swing.JFrame {
         try {
             jl_Destacado.setModel(new DefaultListModel<>());
             int posicion1 = jl_MiUnidad.getSelectedIndex();
-            DefaultListModel l = (DefaultListModel) jl_MiUnidad.getModel();
-            DefaultListModel l2 = (DefaultListModel) jl_Destacado.getModel();
-            Object temp = l.get(posicion1);
+            DefaultListModel lista = (DefaultListModel) jl_MiUnidad.getModel();
+            DefaultListModel lista2 = (DefaultListModel) jl_Destacado.getModel();
+            Object objeto = lista.get(posicion1);
             AdminDestacado ad = new AdminDestacado("./Destacados.cbm");
             ad.cargarArchivo();
             AdminMiUnidad am = new AdminMiUnidad("./Mi Unidad.cbm");
             am.cargarArchivo();
-            if (temp instanceof NewCarpetas) {
-                ad.getListaC().add((NewCarpetas) temp);
-                l2.addElement(temp);
+            if (objeto instanceof NewCarpetas) {
+                ad.getListaC().add((NewCarpetas) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaC().size(); i++) {
-                    if (((NewCarpetas) temp).getNombre().equals(am.getListaC().get(i).getNombre())) {
+                    if (((NewCarpetas) objeto).getNombre().equals(am.getListaC().get(i).getNombre())) {
                         am.getListaC().remove(i);
                     }
                 }
-            } else if (temp instanceof Archivos) {
-                ad.getListaA().add((Archivos) temp);
-                l2.addElement(temp);
+            } else if (objeto instanceof Archivos) {
+                ad.getListaA().add((Archivos) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaA().size(); i++) {
-                    if (((Archivos) temp).getNombre().equals(am.getListaA().get(i).getNombre())) {
+                    if (((Archivos) objeto).getNombre().equals(am.getListaA().get(i).getNombre())) {
                         am.getListaA().remove(i);
                     }
                 }
             }
             am.escribirArchivo();
             ad.escribirArchivo();
-            l.remove(posicion1);
-            jl_MiUnidad.setModel(l);
-            jl_Destacado.setModel(l2);
+            lista.remove(posicion1);
+            jl_MiUnidad.setModel(lista);
+            jl_Destacado.setModel(lista2);
 
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -520,35 +517,35 @@ public class Inicio extends javax.swing.JFrame {
         try {
             jl_Papelera.setModel(new DefaultListModel<>());
             int posicion1 = jl_MiUnidad.getSelectedIndex();
-            DefaultListModel l = (DefaultListModel) jl_MiUnidad.getModel();
-            DefaultListModel l2 = (DefaultListModel) jl_Papelera.getModel();
-            Object temp = l.get(posicion1);
+            DefaultListModel lista = (DefaultListModel) jl_MiUnidad.getModel();
+            DefaultListModel lista2 = (DefaultListModel) jl_Papelera.getModel();
+            Object objeto = lista.get(posicion1);
             AdminPapelera ad = new AdminPapelera("./Papelera.cbm");
             ad.cargarArchivo();
             AdminMiUnidad am = new AdminMiUnidad("./Mi Unidad.cbm");
             am.cargarArchivo();
-            if (temp instanceof NewCarpetas) {
-                ad.getListaC().add((NewCarpetas) temp);
-                l2.addElement(temp);
+            if (objeto instanceof NewCarpetas) {
+                ad.getListaC().add((NewCarpetas) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaC().size(); i++) {
-                    if (((NewCarpetas) temp).getNombre().equals(am.getListaC().get(i).getNombre())) {
+                    if (((NewCarpetas) objeto).getNombre().equals(am.getListaC().get(i).getNombre())) {
                         am.getListaC().remove(i);
                     }
                 }
-            } else if (temp instanceof Archivos) {
-                ad.getListaA().add((Archivos) temp);
-                l2.addElement(temp);
+            } else if (objeto instanceof Archivos) {
+                ad.getListaA().add((Archivos) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaA().size(); i++) {
-                    if (((Archivos) temp).getNombre().equals(am.getListaA().get(i).getNombre())) {
+                    if (((Archivos) objeto).getNombre().equals(am.getListaA().get(i).getNombre())) {
                         am.getListaA().remove(i);
                     }
                 }
             }
             am.escribirArchivo();
             ad.escribirArchivo();
-            l.remove(posicion1);
-            jl_MiUnidad.setModel(l);
-            jl_Papelera.setModel(l2);
+            lista.remove(posicion1);
+            jl_MiUnidad.setModel(lista);
+            jl_Papelera.setModel(lista2);
 
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -559,35 +556,35 @@ public class Inicio extends javax.swing.JFrame {
         try {
             jl_MiUnidad.setModel(new DefaultListModel<>());
             int posicion1 = jl_Destacado.getSelectedIndex();
-            DefaultListModel l = (DefaultListModel) jl_Destacado.getModel();
-            DefaultListModel l2 = (DefaultListModel) jl_MiUnidad.getModel();
-            Object temp = l.get(posicion1);
+            DefaultListModel lista = (DefaultListModel) jl_Destacado.getModel();
+            DefaultListModel lista2 = (DefaultListModel) jl_MiUnidad.getModel();
+            Object objeto = lista.get(posicion1);
             AdminMiUnidad ad = new AdminMiUnidad("./Mi Unidad.cbm");
             ad.cargarArchivo();
             AdminDestacado am = new AdminDestacado("./Destacados.cbm");
             am.cargarArchivo();
-            if (temp instanceof NewCarpetas) {
-                ad.getListaC().add((NewCarpetas) temp);
-                l2.addElement(temp);
+            if (objeto instanceof NewCarpetas) {
+                ad.getListaC().add((NewCarpetas) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaC().size(); i++) {
-                    if (((NewCarpetas) temp).getNombre().equals(am.getListaC().get(i).getNombre())) {
+                    if (((NewCarpetas) objeto).getNombre().equals(am.getListaC().get(i).getNombre())) {
                         am.getListaC().remove(i);
                     }
                 }
-            } else if (temp instanceof Archivos) {
-                ad.getListaA().add((Archivos) temp);
-                l2.addElement(temp);
+            } else if (objeto instanceof Archivos) {
+                ad.getListaA().add((Archivos) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaA().size(); i++) {
-                    if (((Archivos) temp).getNombre().equals(am.getListaA().get(i).getNombre())) {
+                    if (((Archivos) objeto).getNombre().equals(am.getListaA().get(i).getNombre())) {
                         am.getListaA().remove(i);
                     }
                 }
             }
             am.escribirArchivo();
             ad.escribirArchivo();
-            l.remove(posicion1);
-            jl_Destacado.setModel(l);
-            jl_MiUnidad.setModel(l2);
+            lista.remove(posicion1);
+            jl_Destacado.setModel(lista);
+            jl_MiUnidad.setModel(lista2);
 
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -610,35 +607,35 @@ public class Inicio extends javax.swing.JFrame {
         try {
             jl_Papelera.setModel(new DefaultListModel<>());
             int posicion1 = jl_Destacado.getSelectedIndex();
-            DefaultListModel l = (DefaultListModel) jl_Destacado.getModel();
-            DefaultListModel l2 = (DefaultListModel) jl_Papelera.getModel();
-            Object temp = l.get(posicion1);
+            DefaultListModel lista = (DefaultListModel) jl_Destacado.getModel();
+            DefaultListModel lista2 = (DefaultListModel) jl_Papelera.getModel();
+            Object objeto = lista.get(posicion1);
             AdminPapelera ad = new AdminPapelera("./Papelera.cbm");
             ad.cargarArchivo();
             AdminDestacado am = new AdminDestacado("./Destacados.cbm");
             am.cargarArchivo();
-            if (temp instanceof NewCarpetas) {
-                ad.getListaC().add((NewCarpetas) temp);
-                l2.addElement(temp);
+            if (objeto instanceof NewCarpetas) {
+                ad.getListaC().add((NewCarpetas) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaC().size(); i++) {
-                    if (((NewCarpetas) temp).getNombre().equals(am.getListaC().get(i).getNombre())) {
+                    if (((NewCarpetas) objeto).getNombre().equals(am.getListaC().get(i).getNombre())) {
                         am.getListaC().remove(i);
                     }
                 }
-            } else if (temp instanceof Archivos) {
-                ad.getListaA().add((Archivos) temp);
-                l2.addElement(temp);
+            } else if (objeto instanceof Archivos) {
+                ad.getListaA().add((Archivos) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaA().size(); i++) {
-                    if (((Archivos) temp).getNombre().equals(am.getListaA().get(i).getNombre())) {
+                    if (((Archivos) objeto).getNombre().equals(am.getListaA().get(i).getNombre())) {
                         am.getListaA().remove(i);
                     }
                 }
             }
             am.escribirArchivo();
             ad.escribirArchivo();
-            l.remove(posicion1);
-            jl_Destacado.setModel(l);
-            jl_Papelera.setModel(l2);
+            lista.remove(posicion1);
+            jl_Destacado.setModel(lista);
+            jl_Papelera.setModel(lista2);
 
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -649,35 +646,35 @@ public class Inicio extends javax.swing.JFrame {
         try {
             jl_MiUnidad.setModel(new DefaultListModel<>());
             int posicion1 = jl_Papelera.getSelectedIndex();
-            DefaultListModel l = (DefaultListModel) jl_Papelera.getModel();
-            DefaultListModel l2 = (DefaultListModel) jl_MiUnidad.getModel();
-            Object temp = l.get(posicion1);
+            DefaultListModel lista = (DefaultListModel) jl_Papelera.getModel();
+            DefaultListModel lista2 = (DefaultListModel) jl_MiUnidad.getModel();
+            Object objeto = lista.get(posicion1);
             AdminMiUnidad ad = new AdminMiUnidad("./Mi Unidad.cbm");
             ad.cargarArchivo();
             AdminPapelera am = new AdminPapelera("./Papelera.cbm");
             am.cargarArchivo();
-            if (temp instanceof NewCarpetas) {
-                ad.getListaC().add((NewCarpetas) temp);
-                l2.addElement(temp);
+            if (objeto instanceof NewCarpetas) {
+                ad.getListaC().add((NewCarpetas) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaC().size(); i++) {
-                    if (((NewCarpetas) temp).getNombre().equals(am.getListaC().get(i).getNombre())) {
+                    if (((NewCarpetas) objeto).getNombre().equals(am.getListaC().get(i).getNombre())) {
                         am.getListaC().remove(i);
                     }
                 }
-            } else if (temp instanceof Archivos) {
-                ad.getListaA().add((Archivos) temp);
-                l2.addElement(temp);
+            } else if (objeto instanceof Archivos) {
+                ad.getListaA().add((Archivos) objeto);
+                lista2.addElement(objeto);
                 for (int i = 0; i < am.getListaA().size(); i++) {
-                    if (((Archivos) temp).getNombre().equals(am.getListaA().get(i).getNombre())) {
+                    if (((Archivos) objeto).getNombre().equals(am.getListaA().get(i).getNombre())) {
                         am.getListaA().remove(i);
                     }
                 }
             }
             am.escribirArchivo();
             ad.escribirArchivo();
-            l.remove(posicion1);
-            jl_Papelera.setModel(l);
-            jl_MiUnidad.setModel(l2);
+            lista.remove(posicion1);
+            jl_Papelera.setModel(lista);
+            jl_MiUnidad.setModel(lista2);
 
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -687,26 +684,26 @@ public class Inicio extends javax.swing.JFrame {
     private void jmi_Eliminar_PermanenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Eliminar_PermanenteActionPerformed
         try {
             int posicion1 = jl_Papelera.getSelectedIndex();
-            DefaultListModel l = (DefaultListModel) jl_Papelera.getModel();
-            Object temp = l.get(posicion1);
+            DefaultListModel lista = (DefaultListModel) jl_Papelera.getModel();
+            Object objeto = lista.get(posicion1);
             AdminPapelera am = new AdminPapelera("./Papelera.cbm");
             am.cargarArchivo();
-            if (temp instanceof NewCarpetas) {
+            if (objeto instanceof NewCarpetas) {
                 for (int i = 0; i < am.getListaC().size(); i++) {
-                    if (((NewCarpetas) temp).getNombre().equals(am.getListaC().get(i).getNombre())) {
+                    if (((NewCarpetas) objeto).getNombre().equals(am.getListaC().get(i).getNombre())) {
                         am.getListaC().remove(i);
                     }
                 }
-            } else if (temp instanceof Archivos) {
+            } else if (objeto instanceof Archivos) {
                 for (int i = 0; i < am.getListaA().size(); i++) {
-                    if (((Archivos) temp).getNombre().equals(am.getListaA().get(i).getNombre())) {
+                    if (((Archivos) objeto).getNombre().equals(am.getListaA().get(i).getNombre())) {
                         am.getListaA().remove(i);
                     }
                 }
             }
             am.escribirArchivo();
-            l.remove(posicion1);
-            jl_Papelera.setModel(l);
+            lista.remove(posicion1);
+            jl_Papelera.setModel(lista);
 
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
