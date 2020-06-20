@@ -55,9 +55,6 @@ public class NewCarpetas implements Serializable{
 
     @Override
     public String toString() {
-        return "Carpeta:" + nombre + ", Carpetas:" + lista + ", Archivos:" + lista2 + '}';
-    }
-    
-    
-    
+        return "Carpeta: " + "nombre=" + nombre + ", link=" + link;
+    }    
 }
